@@ -1,0 +1,454 @@
+<!DOCTYPE html>
+<html lang="es" class="no-js">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>El Tamal · Comida típica arequipeña</title>
+<meta name="description" content="El Tamal — picantería de comida típica en Arequipa. Tamales, rocoto relleno, chupe de camarones, adobo y ocopa, en su punto. Reserva tu mesa.">
+<meta name="theme-color" content="#2A211C">
+
+<!-- Open Graph -->
+<meta property="og:title" content="El Tamal · Comida típica arequipeña">
+<meta property="og:description" content="Sabor de Arequipa, en su punto. Picantería tradicional con tamales, rocoto relleno y chupe de camarones.">
+<meta property="og:type" content="restaurant">
+<meta property="og:image" content="img/hero-tamales.jpg">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;0,9..144,700;1,9..144,500&family=Karla:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+<style>
+  /* ============ TOKENS — paleta sillar / fogón ============ */
+  :root{
+    --sillar:#F4EFE6;      /* piedra volcánica blanca, fondo */
+    --sillar-2:#EAE2D3;    /* sillar más cálido */
+    --carbon:#2A211C;      /* texto, casi negro tostado */
+    --carbon-soft:#4A3F37; /* texto secundario */
+    --terracota:#B5491F;   /* barro cocido / ladrillo de horno */
+    --terracota-dark:#8F3814;
+    --aji:#D98324;         /* dorado-naranja del ají y la brasa, CTA */
+    --aji-dark:#BE6E14;
+    --maiz:#E3C567;        /* maíz del tamal */
+    --olivo:#6B6A3C;       /* campiña / huacatay */
+    --line:rgba(42,33,28,.12);
+
+    --font-display:'Fraunces',Georgia,serif;
+    --font-body:'Karla',system-ui,-apple-system,sans-serif;
+
+    --shadow-soft:0 10px 40px -12px rgba(42,33,28,.28);
+    --shadow-card:0 4px 24px -8px rgba(42,33,28,.22);
+    --maxw:1180px;
+    --ease:cubic-bezier(.16,.84,.44,1);
+  }
+
+  *,*::before,*::after{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  @media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+
+  body{
+    margin:0;
+    font-family:var(--font-body);
+    color:var(--carbon);
+    background:var(--sillar);
+    line-height:1.65;
+    -webkit-font-smoothing:antialiased;
+    overflow-x:hidden;
+  }
+
+  /* Textura de grano sutil sobre el fondo (firma artesanal) */
+  body::before{
+    content:"";position:fixed;inset:0;z-index:0;pointer-events:none;
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='120' height='120' filter='url(%23n)' opacity='0.5'/%3E%3C/svg%3E");
+    opacity:.04;mix-blend-mode:multiply;
+  }
+
+  h1,h2,h3,h4{font-family:var(--font-display);font-weight:600;line-height:1.08;margin:0;letter-spacing:-.01em}
+  p{margin:0 0 1rem}
+  a{color:inherit;text-decoration:none}
+  img{display:block;max-width:100%}
+
+  .wrap{max-width:var(--maxw);margin:0 auto;padding:0 1.25rem;position:relative;z-index:1}
+  @media(min-width:768px){.wrap{padding:0 2rem}}
+
+  .eyebrow{
+    font-family:var(--font-body);font-weight:700;font-size:.78rem;
+    letter-spacing:.22em;text-transform:uppercase;color:var(--terracota);
+    display:inline-flex;align-items:center;gap:.6rem;margin-bottom:1rem;
+  }
+  .eyebrow::before{content:"";width:28px;height:1px;background:var(--terracota);display:inline-block}
+
+  /* ============ BOTONES ============ */
+  .btn{
+    display:inline-flex;align-items:center;gap:.55rem;cursor:pointer;
+    font-family:var(--font-body);font-weight:600;font-size:1rem;
+    padding:.85rem 1.6rem;border-radius:999px;border:1px solid transparent;
+    transition:background-color .22s var(--ease),color .22s var(--ease),box-shadow .22s var(--ease),border-color .22s var(--ease);
+  }
+  .btn svg{width:18px;height:18px;flex:none}
+  .btn-primary{background:var(--aji);color:#3a1e06;box-shadow:0 6px 20px -6px rgba(217,131,36,.6)}
+  .btn-primary:hover{background:var(--aji-dark);color:#2a1604}
+  .btn-primary:focus-visible{outline:3px solid var(--carbon);outline-offset:2px}
+  .btn-ghost{background:transparent;color:var(--carbon);border-color:var(--line)}
+  .btn-ghost:hover{border-color:var(--carbon);background:rgba(42,33,28,.04)}
+  .btn-ghost:focus-visible{outline:3px solid var(--terracota);outline-offset:2px}
+
+  /* ============ NAV flotante ============ */
+  .nav{position:fixed;top:.9rem;left:.9rem;right:.9rem;z-index:50;
+    display:flex;align-items:center;justify-content:space-between;
+    padding:.7rem 1.1rem;border-radius:16px;
+    background:rgba(244,239,230,.72);backdrop-filter:blur(12px);
+    border:1px solid var(--line);
+    transition:box-shadow .3s var(--ease),background-color .3s var(--ease);
+  }
+  .nav.scrolled{box-shadow:var(--shadow-soft);background:rgba(244,239,230,.92)}
+  .brand{font-family:var(--font-display);font-weight:700;font-size:1.4rem;letter-spacing:-.02em;display:flex;align-items:center;gap:.5rem}
+  .brand .dot{color:var(--terracota)}
+  .nav-links{display:none;gap:1.8rem;align-items:center}
+  .nav-links a{font-weight:500;font-size:.95rem;position:relative;padding:.2rem 0}
+  .nav-links a::after{content:"";position:absolute;left:0;bottom:-2px;height:2px;width:0;background:var(--terracota);transition:width .25s var(--ease)}
+  .nav-links a:hover::after{width:100%}
+  @media(min-width:880px){.nav-links{display:flex}}
+  .nav .btn{padding:.6rem 1.15rem;font-size:.9rem}
+
+  /* ============ HERO ============ */
+  .hero{position:relative;min-height:100svh;display:flex;align-items:center;
+    color:var(--sillar);overflow:hidden;padding:7rem 0 3rem}
+  .hero-bg{position:absolute;inset:0;z-index:0}
+  .hero-bg img{width:100%;height:100%;object-fit:cover}
+  .hero-bg::after{content:"";position:absolute;inset:0;
+    background:linear-gradient(180deg,rgba(42,33,28,.55) 0%,rgba(42,33,28,.35) 40%,rgba(42,33,28,.82) 100%)}
+  .hero .wrap{position:relative;z-index:2;max-width:760px}
+  .hero h1{font-size:clamp(2.6rem,7vw,5rem);color:#fff;text-shadow:0 2px 30px rgba(0,0,0,.35)}
+  .hero h1 em{font-style:italic;color:var(--maiz);font-weight:500}
+  .hero p.lead{font-size:clamp(1.05rem,2.4vw,1.35rem);max-width:46ch;color:rgba(255,255,255,.9);margin-top:1.2rem}
+  .hero .actions{display:flex;flex-wrap:wrap;gap:.9rem;margin-top:2rem}
+  .hero .eyebrow{color:var(--maiz)}
+  .hero .eyebrow::before{background:var(--maiz)}
+
+  /* Humo animado (firma) */
+  .smoke{position:absolute;z-index:1;bottom:38%;left:12%;width:120px;height:260px;pointer-events:none;opacity:.5}
+  .smoke path{stroke:rgba(255,247,230,.6);stroke-width:2.5;fill:none;stroke-linecap:round;
+    stroke-dasharray:320;stroke-dashoffset:320;animation:smoke 6s var(--ease) infinite}
+  .smoke path:nth-child(2){animation-delay:1.8s;opacity:.7}
+  .smoke path:nth-child(3){animation-delay:3.4s;opacity:.5}
+  @keyframes smoke{
+    0%{stroke-dashoffset:320;opacity:0;transform:translateY(20px)}
+    25%{opacity:.7}
+    100%{stroke-dashoffset:-120;opacity:0;transform:translateY(-30px)}
+  }
+  .scroll-cue{position:absolute;bottom:1.6rem;left:50%;transform:translateX(-50%);z-index:2;
+    color:rgba(255,255,255,.7);font-size:.75rem;letter-spacing:.2em;text-transform:uppercase;
+    display:flex;flex-direction:column;align-items:center;gap:.5rem}
+  .scroll-cue span{width:1px;height:34px;background:linear-gradient(rgba(255,255,255,.8),transparent);animation:cue 2s ease-in-out infinite}
+  @keyframes cue{0%,100%{transform:scaleY(.4);opacity:.4}50%{transform:scaleY(1);opacity:1}}
+
+  /* ============ SECCIONES ============ */
+  section{position:relative;z-index:1}
+  .pad{padding:5.5rem 0}
+  @media(min-width:768px){.pad{padding:7rem 0}}
+  .section-head{max-width:620px;margin-bottom:3rem}
+  .section-head h2{font-size:clamp(2rem,4.5vw,3.1rem)}
+  .section-head p{color:var(--carbon-soft);font-size:1.08rem;margin-top:.9rem}
+
+  /* Historia */
+  .historia{background:var(--sillar-2)}
+  .historia-grid{display:grid;gap:2.5rem;align-items:center}
+  @media(min-width:860px){.historia-grid{grid-template-columns:1.05fr .95fr;gap:4rem}}
+  .historia-img{position:relative;border-radius:20px;overflow:hidden;box-shadow:var(--shadow-soft)}
+  .historia-img img{width:100%;height:100%;object-fit:cover;aspect-ratio:4/3}
+  .historia-img .tag{position:absolute;bottom:1rem;left:1rem;background:rgba(42,33,28,.82);color:var(--sillar);
+    padding:.5rem 1rem;border-radius:10px;font-size:.85rem;backdrop-filter:blur(4px)}
+  .stats{display:flex;gap:2.2rem;margin-top:2rem;flex-wrap:wrap}
+  .stat .n{font-family:var(--font-display);font-size:2.2rem;font-weight:700;color:var(--terracota);line-height:1}
+  .stat .l{font-size:.85rem;color:var(--carbon-soft);margin-top:.3rem}
+
+  /* Platos */
+  .platos-grid{display:grid;gap:1.4rem;grid-template-columns:1fr}
+  @media(min-width:560px){.platos-grid{grid-template-columns:repeat(2,1fr)}}
+  @media(min-width:980px){.platos-grid{grid-template-columns:repeat(3,1fr)}}
+  .plato{background:#fff;border-radius:18px;overflow:hidden;border:1px solid var(--line);
+    box-shadow:var(--shadow-card);transition:box-shadow .3s var(--ease),border-color .3s var(--ease);
+    display:flex;flex-direction:column}
+  .plato:hover{box-shadow:var(--shadow-soft);border-color:rgba(181,73,31,.35)}
+  .plato-img{aspect-ratio:1/1;overflow:hidden;position:relative}
+  .plato-img img{width:100%;height:100%;object-fit:cover;transition:transform .6s var(--ease)}
+  .plato:hover .plato-img img{transform:scale(1.06)}
+  .plato-body{padding:1.3rem 1.4rem 1.5rem}
+  .plato-body h3{font-size:1.32rem;display:flex;justify-content:space-between;align-items:baseline;gap:1rem}
+  .plato-body .price{font-family:var(--font-body);font-weight:700;font-size:1rem;color:var(--terracota);white-space:nowrap}
+  .plato-body p{color:var(--carbon-soft);font-size:.95rem;margin:.5rem 0 0}
+  .plato .badge{display:inline-block;margin-top:.9rem;font-size:.72rem;font-weight:700;letter-spacing:.1em;
+    text-transform:uppercase;color:var(--olivo);background:rgba(107,106,60,.12);padding:.3rem .7rem;border-radius:6px}
+
+  /* Experiencia / franja */
+  .franja{background:var(--carbon);color:var(--sillar);text-align:center}
+  .franja h2{font-size:clamp(1.8rem,4vw,2.8rem);color:#fff;max-width:18ch;margin:0 auto}
+  .franja h2 em{font-style:italic;color:var(--maiz);font-weight:500}
+  .franja p{color:rgba(244,239,230,.75);max-width:54ch;margin:1.2rem auto 0;font-size:1.08rem}
+
+  /* Visítanos */
+  .visita-grid{display:grid;gap:2.5rem}
+  @media(min-width:860px){.visita-grid{grid-template-columns:1fr 1fr;gap:3.5rem;align-items:center}}
+  .info-list{list-style:none;padding:0;margin:1.5rem 0 0}
+  .info-list li{display:flex;gap:1rem;padding:1rem 0;border-bottom:1px solid var(--line)}
+  .info-list li:last-child{border-bottom:0}
+  .info-list .ico{width:42px;height:42px;flex:none;border-radius:12px;background:var(--sillar-2);
+    display:grid;place-items:center;color:var(--terracota)}
+  .info-list .ico svg{width:20px;height:20px}
+  .info-list .k{font-size:.78rem;letter-spacing:.12em;text-transform:uppercase;color:var(--carbon-soft);font-weight:700}
+  .info-list .v{font-size:1.05rem;font-weight:500}
+  .visita-img{border-radius:20px;overflow:hidden;box-shadow:var(--shadow-soft);aspect-ratio:4/3}
+  .visita-img img{width:100%;height:100%;object-fit:cover}
+
+  /* Footer */
+  footer{background:var(--carbon);color:rgba(244,239,230,.7);padding:3.5rem 0 2rem}
+  .foot-grid{display:flex;flex-wrap:wrap;gap:2rem;justify-content:space-between;align-items:flex-start}
+  footer .brand{color:#fff;font-size:1.6rem}
+  footer p{font-size:.92rem;max-width:34ch}
+  .foot-cta{display:flex;flex-direction:column;gap:.8rem}
+  .placeholder{color:var(--maiz);font-weight:600}
+  .foot-bottom{margin-top:2.5rem;padding-top:1.5rem;border-top:1px solid rgba(244,239,230,.15);
+    font-size:.82rem;display:flex;flex-wrap:wrap;gap:.5rem 1.5rem;justify-content:space-between}
+
+  /* WhatsApp flotante */
+  .wa-float{position:fixed;bottom:1.2rem;right:1.2rem;z-index:60;width:58px;height:58px;border-radius:50%;
+    background:#25D366;display:grid;place-items:center;box-shadow:0 8px 24px -6px rgba(37,211,102,.6);
+    transition:transform .25s var(--ease),box-shadow .25s var(--ease)}
+  .wa-float:hover{box-shadow:0 12px 30px -6px rgba(37,211,102,.75)}
+  .wa-float svg{width:30px;height:30px;fill:#fff}
+  .wa-float:focus-visible{outline:3px solid #fff;outline-offset:3px}
+
+  /* ============ REVEAL al scroll ============ */
+  .reveal{opacity:0;transform:translateY(26px);transition:opacity .8s var(--ease),transform .8s var(--ease)}
+  .reveal.in{opacity:1;transform:none}
+  .reveal.d1{transition-delay:.08s}.reveal.d2{transition-delay:.16s}.reveal.d3{transition-delay:.24s}
+
+  @media (prefers-reduced-motion:reduce){
+    .reveal{opacity:1!important;transform:none!important;transition:none!important}
+    .smoke,.scroll-cue span{animation:none!important}
+    .plato:hover .plato-img img{transform:none}
+  }
+  /* Fallback: sin JS, todo visible (no ocultar contenido nunca) */
+  .no-js .reveal{opacity:1;transform:none}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav class="nav" id="nav" aria-label="Principal">
+  <a href="#inicio" class="brand">El Tamal<span class="dot">.</span></a>
+  <div class="nav-links">
+    <a href="#historia">Historia</a>
+    <a href="#platos">Carta</a>
+    <a href="#visita">Visítanos</a>
+  </div>
+  <a class="btn btn-primary" href="https://wa.me/51999999999?text=Hola%20El%20Tamal%2C%20quiero%20reservar%20una%20mesa" target="_blank" rel="noopener">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 5h2l1 7h11l2-5H6"/><circle cx="9" cy="19" r="1.5"/><circle cx="17" cy="19" r="1.5"/></svg>
+    Reservar
+  </a>
+</nav>
+
+<!-- HERO -->
+<header class="hero" id="inicio">
+  <div class="hero-bg">
+    <picture>
+      <source media="(max-width:760px)" type="image/webp" srcset="img/hero-tamales-sm.webp">
+      <source media="(max-width:760px)" srcset="img/hero-tamales-sm.jpg">
+      <source type="image/webp" srcset="img/hero-tamales.webp">
+      <img src="img/hero-tamales.jpg" alt="Tamales arequipeños humeantes servidos en plato de barro sobre mesa de madera" fetchpriority="high" width="1600" height="900">
+    </picture>
+  </div>
+  <svg class="smoke" viewBox="0 0 120 260" aria-hidden="true">
+    <path d="M60 250 C40 200 80 180 60 130 C40 90 80 70 60 20"/>
+    <path d="M60 250 C75 200 45 175 65 125 C85 85 50 65 60 15"/>
+    <path d="M60 250 C50 205 70 185 55 135 C42 95 72 72 60 25"/>
+  </svg>
+  <div class="wrap reveal in">
+    <span class="eyebrow">Picantería arequipeña · desde el corazón del Misti</span>
+    <h1>Sabor de Arequipa,<br><em>en su punto.</em></h1>
+    <p class="lead">Cocina típica hecha a fuego lento: tamales en panca, rocoto relleno, chupe de camarones y el adobo de los domingos. Como en casa, pero mejor.</p>
+    <div class="actions">
+      <a class="btn btn-primary" href="https://wa.me/51999999999?text=Hola%20El%20Tamal%2C%20quiero%20reservar%20una%20mesa" target="_blank" rel="noopener">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+        Reservar mesa
+      </a>
+      <a class="btn btn-ghost" href="#platos" style="color:#fff;border-color:rgba(255,255,255,.4)">Ver la carta</a>
+    </div>
+  </div>
+  <div class="scroll-cue" aria-hidden="true">Desliza<span></span></div>
+</header>
+
+<!-- HISTORIA -->
+<section class="historia pad" id="historia">
+  <div class="wrap historia-grid">
+    <div class="historia-img reveal">
+      <img src="img/ambiente.jpg" alt="Interior de El Tamal con paredes de sillar, arcos de piedra y mesas de madera" loading="lazy" width="1600" height="1200">
+      <span class="tag">Nuestro local en sillar</span>
+    </div>
+    <div>
+      <span class="eyebrow reveal">Nuestra historia</span>
+      <h2 class="reveal d1">Una receta de familia,<br>servida con orgullo</h2>
+      <p class="reveal d2">El Tamal nació de la cocina de la abuela: una olla de barro, leña de la campiña y el secreto de un adobo que toma su tiempo. Hoy seguimos cocinando igual, porque lo bueno no se apura.</p>
+      <p class="reveal d2">Cada plato es un pedazo de Arequipa: el rocoto que pica con cariño, el queso del valle, el huacatay fresco y el maíz que envuelve nuestros tamales.</p>
+      <div class="stats reveal d3">
+        <div class="stat"><div class="n">+25</div><div class="l">años cocinando</div></div>
+        <div class="stat"><div class="n">100%</div><div class="l">a la leña</div></div>
+        <div class="stat"><div class="n">12</div><div class="l">platos típicos</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PLATOS -->
+<section class="pad" id="platos">
+  <div class="wrap">
+    <div class="section-head">
+      <span class="eyebrow reveal">La carta</span>
+      <h2 class="reveal d1">Platos que saben a casa</h2>
+      <p class="reveal d2">Una selección de nuestras especialidades. Carta completa disponible en el local.</p>
+    </div>
+    <div class="platos-grid">
+      <article class="plato reveal">
+        <div class="plato-img"><img src="img/rocoto.jpg" alt="Rocoto relleno gratinado en plato de cerámica" loading="lazy" width="800" height="800"></div>
+        <div class="plato-body"><h3>Rocoto relleno <span class="price">S/ 28</span></h3><p>Relleno de carne, maní y queso, gratinado al horno. El picante con el que todo empieza.</p><span class="badge">El favorito</span></div>
+      </article>
+      <article class="plato reveal d1">
+        <div class="plato-img"><img src="img/chupe.jpg" alt="Chupe de camarones servido en olla de barro" loading="lazy" width="800" height="800"></div>
+        <div class="plato-body"><h3>Chupe de camarones <span class="price">S/ 42</span></h3><p>Caldo cremoso con camarones del río, leche, huevo y choclo. Un abrazo en cuchara.</p><span class="badge">De temporada</span></div>
+      </article>
+      <article class="plato reveal d2">
+        <div class="plato-img"><img src="img/adobo.jpg" alt="Adobo arequipeño de cerdo en salsa de chicha" loading="lazy" width="800" height="800"></div>
+        <div class="plato-body"><h3>Adobo arequipeño <span class="price">S/ 32</span></h3><p>Cerdo macerado en chicha de jora y ají panca, cocido lento. El plato de los domingos.</p><span class="badge">Tradición</span></div>
+      </article>
+      <article class="plato reveal">
+        <div class="plato-img"><img src="img/ocopa.jpg" alt="Ocopa arequipeña con salsa de huacatay sobre papas" loading="lazy" width="800" height="800"></div>
+        <div class="plato-body"><h3>Ocopa arequipeña <span class="price">S/ 22</span></h3><p>Papas bañadas en crema de huacatay, maní y queso. Verde, fresca e inconfundible.</p><span class="badge">Vegetariano</span></div>
+      </article>
+      <article class="plato reveal d1">
+        <div class="plato-img"><img src="img/hero-tamales-sm.jpg" alt="Tamales arequipeños envueltos en panca de maíz" loading="lazy" width="800" height="450"></div>
+        <div class="plato-body"><h3>Tamales de la casa <span class="price">S/ 12</span></h3><p>Maíz molido y carne envueltos en panca, al vapor. Lo que nos da el nombre.</p><span class="badge">La especialidad</span></div>
+      </article>
+      <article class="plato reveal d2">
+        <div class="plato-img"><img src="img/ambiente-sm.jpg" alt="Mesa servida con varios platos típicos arequipeños" loading="lazy" width="800" height="450"></div>
+        <div class="plato-body"><h3>Menú degustación <span class="price">S/ 75</span></h3><p>Un recorrido por cinco tiempos para dos personas. Reserva con un día de anticipación.</p><span class="badge">Para compartir</span></div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- FRANJA -->
+<section class="franja pad">
+  <div class="wrap reveal">
+    <h2>El fuego lento nunca <em>tiene prisa</em></h2>
+    <p>Reserva tu mesa y deja que Arequipa te reciba con un plato caliente, una chicha morada bien fría y el calor de siempre.</p>
+    <div style="margin-top:2rem">
+      <a class="btn btn-primary" href="https://wa.me/51999999999?text=Hola%20El%20Tamal%2C%20quiero%20reservar%20una%20mesa" target="_blank" rel="noopener">Reservar por WhatsApp</a>
+    </div>
+  </div>
+</section>
+
+<!-- VISITANOS -->
+<section class="historia pad" id="visita">
+  <div class="wrap visita-grid">
+    <div>
+      <span class="eyebrow reveal">Visítanos</span>
+      <h2 class="reveal d1">Te esperamos en Arequipa</h2>
+      <ul class="info-list">
+        <li class="reveal d1">
+          <span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 12-9 12s-9-5-9-12a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg></span>
+          <div><div class="k">Dirección</div><div class="v placeholder">[REEMPLAZAR: Calle / Av. , Arequipa]</div></div>
+        </li>
+        <li class="reveal d2">
+          <span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg></span>
+          <div><div class="k">Horario</div><div class="v placeholder">[REEMPLAZAR: Mar–Dom, 11:00–17:00]</div></div>
+        </li>
+        <li class="reveal d3">
+          <span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.96.36 1.9.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.91.34 1.85.57 2.81.7A2 2 0 0 1 22 16.92z"/></svg></span>
+          <div><div class="k">Reservas</div><div class="v placeholder">[REEMPLAZAR: +51 999 999 999]</div></div>
+        </li>
+      </ul>
+      <div style="margin-top:1.8rem;display:flex;gap:.9rem;flex-wrap:wrap" class="reveal d3">
+        <a class="btn btn-primary" href="https://wa.me/51999999999?text=Hola%20El%20Tamal%2C%20quiero%20reservar%20una%20mesa" target="_blank" rel="noopener">Escríbenos por WhatsApp</a>
+        <a class="btn btn-ghost" href="https://maps.google.com/?q=Arequipa+Peru" target="_blank" rel="noopener">Cómo llegar</a>
+      </div>
+    </div>
+    <div class="visita-img reveal d2">
+      <img src="img/ambiente.jpg" alt="Ambiente acogedor de El Tamal con arcos de sillar y luz cálida" loading="lazy" width="1600" height="1200">
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="wrap foot-grid">
+    <div>
+      <div class="brand">El Tamal<span style="color:var(--terracota)">.</span></div>
+      <p>Comida típica arequipeña, a la leña y con el corazón. Arequipa, Perú.</p>
+    </div>
+    <div class="foot-cta">
+      <div class="k" style="font-size:.78rem;letter-spacing:.12em;text-transform:uppercase;color:rgba(244,239,230,.6);font-weight:700">Contacto</div>
+      <span class="placeholder">[REEMPLAZAR: +51 999 999 999]</span>
+      <span class="placeholder">[REEMPLAZAR: hola@eltamal.pe]</span>
+      <div style="display:flex;gap:1rem;margin-top:.4rem">
+        <a href="#" aria-label="Instagram de El Tamal" style="color:rgba(244,239,230,.7)"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg></a>
+        <a href="#" aria-label="Facebook de El Tamal" style="color:rgba(244,239,230,.7)"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg></a>
+      </div>
+    </div>
+  </div>
+  <div class="wrap foot-bottom">
+    <span>© <span id="year"></span> El Tamal · Comida típica arequipeña</span>
+    <span>Hecho en Arequipa 🇵🇪</span>
+  </div>
+</footer>
+
+<!-- WhatsApp flotante -->
+<a class="wa-float" href="https://wa.me/51999999999?text=Hola%20El%20Tamal%2C%20quiero%20reservar%20una%20mesa" target="_blank" rel="noopener" aria-label="Escríbenos por WhatsApp">
+  <svg viewBox="0 0 24 24"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.32 4.95L2 22l5.25-1.38a9.9 9.9 0 0 0 4.79 1.22h.01c5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.9-7.01A9.82 9.82 0 0 0 12.04 2zm0 18.15h-.01a8.2 8.2 0 0 1-4.18-1.14l-.3-.18-3.11.82.83-3.04-.2-.31a8.2 8.2 0 0 1-1.26-4.39c0-4.54 3.7-8.23 8.24-8.23 2.2 0 4.27.86 5.83 2.42a8.18 8.18 0 0 1 2.41 5.82c0 4.54-3.7 8.23-8.24 8.23zm4.52-6.16c-.25-.12-1.47-.72-1.69-.81-.23-.08-.39-.12-.56.12-.16.25-.64.81-.78.97-.14.17-.29.19-.54.06-.25-.12-1.05-.39-2-1.23-.74-.66-1.24-1.48-1.38-1.73-.14-.25-.02-.38.11-.51.11-.11.25-.29.37-.43.12-.14.16-.25.25-.41.08-.17.04-.31-.02-.43-.06-.12-.56-1.34-.76-1.84-.2-.48-.4-.42-.56-.43h-.48c-.17 0-.43.06-.66.31-.22.25-.86.85-.86 2.07 0 1.22.89 2.4 1.01 2.56.12.17 1.75 2.67 4.23 3.74.59.26 1.05.41 1.41.52.59.19 1.13.16 1.56.1.48-.07 1.47-.6 1.67-1.18.21-.58.21-1.07.14-1.18-.06-.1-.22-.16-.47-.28z"/></svg>
+</a>
+
+<script>
+  // Año dinámico
+  document.getElementById('year').textContent = new Date().getFullYear();
+
+  // Nav con sombra al hacer scroll
+  const nav = document.getElementById('nav');
+  const onScroll = () => nav.classList.toggle('scrolled', window.scrollY > 20);
+  onScroll();
+  window.addEventListener('scroll', onScroll, {passive:true});
+
+  // Quitar no-js (si el JS corre, gestionamos reveal con animación)
+  document.documentElement.classList.remove('no-js');
+
+  // Reveal al scroll con IntersectionObserver (transform/opacity, GPU-friendly)
+  const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const items = document.querySelectorAll('.reveal:not(.in)');
+  if (prefersReduced || !('IntersectionObserver' in window)) {
+    items.forEach(el => el.classList.add('in'));
+  } else {
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach(e => {
+        if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); }
+      });
+    }, {threshold:0.12, rootMargin:'0px 0px -8% 0px'});
+    items.forEach(el => io.observe(el));
+
+    // Revelar de inmediato lo que ya está dentro del viewport al cargar
+    requestAnimationFrame(() => {
+      const vh = window.innerHeight;
+      items.forEach(el => {
+        const r = el.getBoundingClientRect();
+        if (r.top < vh * 0.92 && r.bottom > 0) el.classList.add('in');
+      });
+    });
+
+    // Safety-net: si algo no se reveló en 4s, mostrarlo igual (nunca ocultar contenido)
+    setTimeout(() => {
+      document.querySelectorAll('.reveal:not(.in)').forEach(el => {
+        const r = el.getBoundingClientRect();
+        if (r.top < window.innerHeight) el.classList.add('in');
+      });
+    }, 4000);
+  }
+</script>
+</body>
+</html>
